@@ -251,6 +251,17 @@ def birthdays(args, book):
 
 def main():
     book = AddressBook()
+    commands = {
+        "hello": lambda args: "How can I help you?",
+        "add": lambda args: add_contact(args, book),
+        "change": lambda args: change_contact(args, book),
+        "phone": lambda args: show_phone(args, book),
+        "all": lambda args: show_all(args, book),
+        "add-birthday": lambda args: add_birthday(args, book),
+        "show-birthday": lambda args: show_birthday(args, book),
+        "birthdays": lambda args: birthdays(args, book),
+    }
+
     print("Welcome to the assistant bot!")
 
     while True:
@@ -264,24 +275,9 @@ def main():
         if command in ["close", "exit"]:
             print("Good bye!")
             break
-        elif command == "hello":
-            print("How can I help you?")
-        elif command == "add":
-            print(add_contact(args, book))
-        elif command == "change":
-            print(change_contact(args, book))
-        elif command == "phone":
-            print(show_phone(args, book))
-        elif command == "all":
-            print(show_all(args, book))
-        elif command == "add-birthday":
-            print(add_birthday(args, book))
-        elif command == "show-birthday":
-            print(show_birthday(args, book))
-        elif command == "birthdays":
-            print(birthdays(args, book))
-        else:
-            print("Invalid command.")
+
+        handler = commands.get(command)
+        print(handler(args) if handler else "Invalid command.")
 
 
 if __name__ == "__main__":
